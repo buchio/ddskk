@@ -2929,7 +2929,7 @@ WORD で確定する。"
     (when skk-undo-kakutei-word-only
       (setq skk-last-buffer-undo-list buffer-undo-list))
     (goto-char skk-henkan-start-point)
-    (insert-and-inherit "▼")
+    (insert-and-inherit skk-henkan-off-char)
     (skk-set-marker skk-henkan-start-point (point))
     (cond
      (skk-okuri-char
@@ -3281,9 +3281,9 @@ TYPE (文字の種類) に応じた文字をスキップしてバッファの先頭方向へ戻る。
    (when skk-undo-kakutei-word-only
      (setq skk-last-buffer-undo-list buffer-undo-list))
    (if (not (skk-get-prefix skk-current-rule-tree))
-       (insert-and-inherit "$B▽")
+       (insert-and-inherit skk-henkan-on-char)
      (skk-erase-prefix)
-     (insert-and-inherit "▽")
+     (insert-and-inherit skk-henkan-on-char)
      (skk-set-marker skk-kana-start-point (point))
      (skk-insert-prefix))
    (setq skk-henkan-mode 'on)
@@ -3295,13 +3295,13 @@ TYPE (文字の種類) に応じた文字をスキップしてバッファの先頭方向へ戻る。
   "\"$B▽\"を\"▼\"に変える。`skk-henkan-mode' を active にする。"
   (skk-save-point
    (goto-char (1- skk-henkan-start-point))
-   (unless (looking-at "▽")
+   (unless (looking-at skk-henkan-on-char)
      (skk-kakutei)
      (skk-error "▽がありません"
 		"It seems that you have deleted ▽"))
    (cancel-undo-boundary)
    (let ((buffer-undo-list t))
-     (insert-and-inherit "▼")
+     (insert-and-inherit skk-henkan-off-char)
      (delete-char 1))
    (setq skk-henkan-mode 'active)))
 
@@ -3310,12 +3310,12 @@ TYPE (文字の種類) に応じた文字をスキップしてバッファの先頭方向へ戻る。
   (skk-save-point
    (goto-char (1- skk-henkan-start-point))
    (cancel-undo-boundary)
-   (if (looking-at "$B▼")
+   (if (looking-at skk-henkan-off-char)
        (let ((buffer-undo-list t))
-	 (insert-and-inherit "▽")
+	 (insert-and-inherit skk-henkan-on-char)
 	 (delete-char 1))
      (goto-char skk-henkan-start-point)
-     (insert-and-inherit "▽")
+     (insert-and-inherit skk-henkan-on-char)
      (skk-set-marker skk-henkan-start-point (point))
      (skk-message "▼がありません"
 		  "It seems that you have deleted ▼"))
@@ -3332,12 +3332,12 @@ TYPE (文字の種類) に応じた文字をスキップしてバッファの先頭方向へ戻る。
 	((eq skk-henkan-mode 'active)
 	 (when skk-use-face
 	   (skk-henkan-face-off))
-	 (if (looking-at "$B▼")
+	 (if (looking-at skk-henkan-off-char)
 	     (delete-char 1)
 	   (unless nomesg
 	     (skk-message "▼がありません"
 			  "It seems that you have deleted ▼"))))
-	((looking-at "▽")
+	((looking-at skk-henkan-on-char)
 	 (delete-char 1))
 	((not nomesg)
 	 (skk-message "▽がありません"

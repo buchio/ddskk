@@ -5130,6 +5130,18 @@ XEmacs 21.4 $B$G$O%(%i!<$K$J$i$J$$$+$b$7$l$J$$$,!"6K$a$FIT40A4$JF0:n$7$+$7$J$$!
   :group 'skk-henkan
   :group 'skk-tooltip)
 
+(defcustom skk-henkan-on-char "$B"&(B"
+  "$B"&%b!<%I$NJ8;zJQ99(B"
+  :type 'string
+  :group 'skk-henkan)
+
+(defcustom skk-henkan-off-char "$B"'(B"
+  "$B"'%b!<%I$NJ8;zJQ99(B"
+  :type 'string
+  :group 'skk-henkan)
+
+
+
 (defcustom skk-tooltip-parameters nil
   "*tooltip $B$r;H$&>l9g$N(B SKK $BFH<+$N(B tooltip $B%U%l!<%`%Q%i%a!<%?@_Dj!#(B
 
